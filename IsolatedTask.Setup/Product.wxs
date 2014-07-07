@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Id="*" Name="IsolatedTask" Language="1033" Version="1.0.0.0" Manufacturer="Brobston Development, Inc." UpgradeCode="5293f8cc-6a92-4a3c-8074-3389a7253b3b">
+		<Package InstallerVersion="301" InstallPrivileges="elevated" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+        <PropertyRef Id="NETFRAMEWORK35" />
+        <Condition Message=".NET 3.5 is required to install IsolatedTask.  Please install .NET 3.5 and try again.">
+            <![CDATA[Installed OR NETFRAMEWORK35]]>
+        </Condition>
+        
+		<Feature Id="Library" Title="IsolatedTask" Description="The IsolatedTask library for MSBuild" Level="1">
+            <ComponentRef Id="IsolatedTask" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="IsolatedTask.Setup" />
+			</Directory>
+		</Directory>
+	</Fragment>
+</Wix>
