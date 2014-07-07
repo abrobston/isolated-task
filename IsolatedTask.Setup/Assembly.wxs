@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-        <DirectoryRef Id="TARGETDIR">
+        <DirectoryRef Id="INSTALLFOLDER">
             <Component Id="IsolatedTask" Guid="{2E3520B6-B866-49AF-9C74-A1323E963404}">
-                <File Id="IsolatedTask.dll" Source="$(var.IsolatedTask.TargetPath)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" />
+                <File Id="IsolatedTask.dll" Source="$(var.IsolatedTask.TargetPath)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
             </Component>
         </DirectoryRef>
 	</Fragment>

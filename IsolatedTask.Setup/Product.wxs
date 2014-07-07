@@ -10,16 +10,19 @@
         <Condition Message=".NET 3.5 is required to install IsolatedTask.  Please install .NET 3.5 and try again.">
             <![CDATA[Installed OR NETFRAMEWORK35]]>
         </Condition>
+
+        <DirectoryRef Id="INSTALLFOLDER" />
         
 		<Feature Id="Library" Title="IsolatedTask" Description="The IsolatedTask library for MSBuild" Level="1">
             <ComponentRef Id="IsolatedTask" />
 		</Feature>
+		
 	</Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="IsolatedTask.Setup" />
+				<Directory Id="INSTALLFOLDER" Name="IsolatedTask" />
 			</Directory>
 		</Directory>
 	</Fragment>
