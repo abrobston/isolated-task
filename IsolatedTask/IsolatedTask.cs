@@ -185,9 +185,9 @@ namespace IsolatedTask
                     {
                         if (isArray)
                         {
-                            convertedProperties.Add(name, this.TaskItems);
+                            convertedProperties.Add(name, this.TaskItems ?? new ITaskItem[0]);
                         }
-                        else if (this.TaskItems.Length > 0)
+                        else if (this.TaskItems != null && this.TaskItems.Length > 0)
                         {
                             convertedProperties.Add(name, this.TaskItems[0]);
                         }
@@ -269,7 +269,6 @@ namespace IsolatedTask
         [Required]
         public string[] ParameterValues { get; set; }
 
-        [Required]
         public ITaskItem[] TaskItems { get; set; }
     }
 }
