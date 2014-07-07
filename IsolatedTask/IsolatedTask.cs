@@ -23,8 +23,7 @@ namespace IsolatedTask
             {
                 Log.LogErrorFromResources("ErrorAssemblyNameOrFileMustBeSet");
             }
-
-            if (String.IsNullOrEmpty(AssemblyName) != String.IsNullOrEmpty(AssemblyFile))
+            else if (String.IsNullOrEmpty(AssemblyName) == String.IsNullOrEmpty(AssemblyFile))
             {
                 Log.LogErrorFromResources("ErrorOnlyOneCanBeSet");
             }
