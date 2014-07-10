@@ -38,7 +38,7 @@ Use
 
 ### 1. Install the MSI
 
-The current release will be linked as soon as I upload it.
+The installer for v1.0.0.0 is [here](https://github.com/abrobston/isolated-task/releases/download/v1.0.0.0/IsolatedTask.msi).
 
 ### 2. Reference IsolatedTask.dll in your MSBuild file
 
