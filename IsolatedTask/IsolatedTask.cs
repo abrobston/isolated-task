@@ -263,22 +263,51 @@ namespace IsolatedTask
             return !Log.HasLoggedErrors;
         }
 
+        /// <summary>
+        /// The full name of a strong-named assembly
+        /// </summary>
         public string AssemblyName { get; set; }
 
+        /// <summary>
+        /// The full path to the custom task DLL
+        /// </summary>
         public string AssemblyFile { get; set; }
 
+        /// <summary>
+        /// The name of the output parameter from the custom task to copy to
+        /// the InnerTaskOutput parameter
+        /// </summary>
         public string OutputParameterName { get; set; }
 
+        /// <summary>
+        /// The value of the output parameter in the custom task whose name
+        /// was specified with OutputParameterName
+        /// </summary>
         [Output]
         public string InnerTaskOutput { get; set; }
 
+        /// <summary>
+        /// The full name, including the namespace, of the custom task class implementing ITask
+        /// </summary>
         [Required]
         public string TaskNameWithNamespace { get; set; }
 
+        /// <summary>
+        /// The names of the custom task input parameters -- use the same name
+        /// multiple times to specify multiple values for an array
+        /// </summary>
         public string[] ParameterNames { get; set; }
 
+        /// <summary>
+        /// The values of the custom task input parameters in the same order as specified in
+        /// ParameterNames
+        /// </summary>
         public string[] ParameterValues { get; set; }
 
+        /// <summary>
+        /// An item array that will be passed to any input parameter in the custom task of type
+        /// ITaskItem[]
+        /// </summary>
         public ITaskItem[] TaskItems { get; set; }
     }
 }
