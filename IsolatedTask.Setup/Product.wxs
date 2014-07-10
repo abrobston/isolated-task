@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-	<Product Id="*" Name="IsolatedTask" Language="1033" Version="1.0.0.0" Manufacturer="Brobston Development, Inc." UpgradeCode="5293f8cc-6a92-4a3c-8074-3389a7253b3b">
+	<Product Id="*" Name="IsolatedTask" Language="1033" Version="!(bind.fileVersion.IsolatedTask.dll)" Manufacturer="Brobston Development, Inc." UpgradeCode="5293f8cc-6a92-4a3c-8074-3389a7253b3b">
 		<Package InstallerVersion="301" InstallPrivileges="elevated" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

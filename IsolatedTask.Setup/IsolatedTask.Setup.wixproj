@@ -9,7 +9,9 @@
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <SignOutput>false</SignOutput>
+    <SignOutput>true</SignOutput>
+    <TimestampUrl>http://timestamp.comodoca.com/authenticode</TimestampUrl>
+    <SdkPath>$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows@CurrentInstallFolder)</SdkPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -42,16 +44,17 @@
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <Target Name="GetFrameworkSdkPath">
-    <GetFrameworkSdkPath>
-      <Output TaskParameter="Path" PropertyName="SdkPath" />
-    </GetFrameworkSdkPath>
+  <Target Name="GetSignToolPath">
+    <CombinePath BasePath="$(SdkPath)" Paths="bin\Signtool.exe">
+      <Output TaskParameter="CombinedPaths" PropertyName="SignToolPath" />
+    </CombinePath>
   </Target>
-  <Target Name="SignCabs" DependsOnTargets="GetFrameworkSdkPath">
-    <Exec Command="&quot;$(SdkPath)bin\Signtool.exe&quot; sign /a &quot;%(SignCabs.FullPath)&quot;" />
+  <Target Name="SignCabs" DependsOnTargets="GetSignToolPath">
+    <Exec Command="&quot;$(SignToolPath)&quot; sign /a &quot;%(SignCabs.FullPath)&quot;" />
   </Target>
-  <Target Name="SignMsi" DependsOnTargets="GetFrameworkSdkPath">
-    <Exec Command="&quot;$(SdkPath)bin\Signtool.exe&quot; sign /a &quot;%(SignMsi.FullPath)&quot;" />
+  <Target Name="SignMsi" DependsOnTargets="GetSignToolPath">
+    <Exec Command="&quot;$(SignToolPath)&quot; sign /a &quot;%(SignMsi.FullPath)&quot;" />
+    <Exec Command="&quot;$(SignToolPath)&quot; timestamp /t $(TimestampUrl) &quot;%(SignMsi.FullPath)&quot;" Condition=" '$(TimestampUrl)' != '' " />
   </Target>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
