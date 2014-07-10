@@ -28,6 +28,16 @@ namespace IsolatedTask
                 Log.LogErrorFromResources("ErrorOnlyOneCanBeSet");
             }
 
+            if (this.ParameterNames == null)
+            {
+                this.ParameterNames = new string[0];
+            }
+
+            if (this.ParameterValues == null)
+            {
+                this.ParameterValues = new string[0];
+            }
+
             if (ParameterNames.Length != ParameterValues.Length)
             {
                 Log.LogErrorFromResources("ErrorParameterNamesAndValuesMustHaveSameLength", ParameterNames.Length, ParameterValues.Length);
@@ -40,6 +50,7 @@ namespace IsolatedTask
 
             try
             {
+
                 Assembly assembly = null;
                 if (!String.IsNullOrEmpty(this.AssemblyName))
                 {
@@ -212,6 +223,8 @@ namespace IsolatedTask
                 }
 
                 object task = assembly.CreateInstance(this.TaskNameWithNamespace, true);
+                ((ITask)task).BuildEngine = this.BuildEngine;
+                ((ITask)task).HostObject = this.HostObject;
                 foreach (var kvp in convertedProperties)
                 {
                     taskType.GetProperty(kvp.Key, BindingFlags.Instance | BindingFlags.Public).GetSetMethod(false).Invoke(task, new object[] { kvp.Value });
@@ -262,10 +275,8 @@ namespace IsolatedTask
         [Required]
         public string TaskNameWithNamespace { get; set; }
 
-        [Required]
         public string[] ParameterNames { get; set; }
 
-        [Required]
         public string[] ParameterValues { get; set; }
 
         public ITaskItem[] TaskItems { get; set; }
