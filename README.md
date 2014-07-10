@@ -13,9 +13,9 @@ closing and reloading Visual Studio.
 
 The suggestion to derive custom tasks from [`AppDomainIsolatedTask`](http://msdn.microsoft.com/en-us/library/microsoft.build.utilities.appdomainisolatedtask(v=vs.90).aspx) did not completely solve the problem, but it pointed me in the
 right direction.  Another suggestion to use
-`&lt;GenerateResourceNeverLockTypeAssemblies&gt;` similarly was not
+`<GenerateResourceNeverLockTypeAssemblies>` similarly was not
 always workable.  What I found was that MSBuild seemed to be parsing
-`&lt;UsingTask&gt;` directives by loading the DLL into the main application
+`<UsingTask>` directives by loading the DLL into the main application
 domain, even though it actually executes the task in a separate domain,
 provided that the task class derives from `MarshalByRefObject` (which
 `AppDomainIsolatedTask` does).  It occurred to me, then, that a wrapper
@@ -52,13 +52,13 @@ For the current version (1.0.0.0) and the pre-built MSI, add:
 If you compile your own, you will of course need your own primary key token,
 version number, etc.
 
-### 3. Replace your other `&lt;UsingTask&gt;` elements
+### 3. Replace your other `<UsingTask>` elements
 
-Instead of `&lt;UsingTask&gt;` for your custom tasks, you will just
-reference your custom task assemblies in the `&lt;IsolatedTask&gt;`
+Instead of `<UsingTask>` for your custom tasks, you will just
+reference your custom task assemblies in the `<IsolatedTask>`
 element within a target.  See below.
 
-### 4. Replace your custom task elements with `&lt;IsolatedTask&gt;` elements
+### 4. Replace your custom task elements with `<IsolatedTask>` elements
 
 You refer to the assembly with either the `AssemblyName` or `AssemblyFile`
 attribute, and refer to the task name with the `TaskNameWithNamespace`
@@ -86,7 +86,6 @@ XML Reference
 | `ParameterNames` | `string[]` | The names of the custom task input parameters &mdash; use the same name multiple times to specify multiple values for an array | Optional |
 | `ParameterValues` | `string[]` | The values of the custom task input parameters in the same order as specified in `ParameterNames` | Optional |
 | `TaskItems` | `ITaskItem[]` | An item array that will be passed to any input parameter in the custom task of type `ITaskItem[]` | Optional |
-
 | `TaskNameWithNamespace` | `string` | The full name, including the namespace, of the custom task class implementing `ITask` | Required |
 
 The number of items in `ParameterNames` and `ParameterValues` must match.
