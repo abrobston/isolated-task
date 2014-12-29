@@ -89,4 +89,12 @@
 	<Target Name="AfterBuild">
 	</Target>
 	-->
+  <Target Name="Build35">
+    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release;Platform=AnyCPU" Targets="Build" ToolsVersion="3.5" Condition=" '$(MSBuildToolsVersion)' != '3.5' " />
+  </Target>
+  <Target Name="Build40">
+    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release40;Platform=AnyCPU" Targets="Build" Condition=" '$(MSBuildToolsVersion)' != '3.5' " />
+  </Target>
+  <Target Name="BeforeBuild" DependsOnTargets="Build35;Build40">
+  </Target>
 </Project>
