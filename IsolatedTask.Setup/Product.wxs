@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?include Paths.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 	<Product Id="*" Name="IsolatedTask" Language="1033" Version="!(bind.fileVersion.IsolatedTask.dll)" Manufacturer="Brobston Development, Inc." UpgradeCode="5293f8cc-6a92-4a3c-8074-3389a7253b3b">
 		<Package InstallerVersion="301" InstallPrivileges="elevated" Compressed="yes" InstallScope="perMachine" />
@@ -6,17 +7,34 @@
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes" />
 
-        <PropertyRef Id="NETFRAMEWORK35" />
+    <PropertyRef Id="NETFRAMEWORK35" />
+    <?ifdef RequireNet4 ?>
+        <PropertyRef Id="NETFRAMEWORK40FULL"/>
+        <Condition Message=".NET 4.0 is required to install IsolatedTask version 1.1.  Please install .NET 4.0 and try again.">
+            <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+        </Condition>
+    <?else?>
         <Condition Message=".NET 3.5 is required to install IsolatedTask.  Please install .NET 3.5 and try again.">
             <![CDATA[Installed OR NETFRAMEWORK35]]>
         </Condition>
+    <?endif?>
 
-        <DirectoryRef Id="INSTALLFOLDER" />
+    <DirectoryRef Id="INSTALLFOLDER" />
         
-		<Feature Id="Library" Title="IsolatedTask" Description="The IsolatedTask library for MSBuild" Level="1">
-            <ComponentRef Id="IsolatedTask" />
+		<Feature Id="Library" Title="IsolatedTask for .NET 3.5" Description="The IsolatedTask library for MSBuild 3.5" Level="1">
+      <ComponentGroupRef Id="Net35"/>
+      <Condition Level="0">
+        <![CDATA[Installed OR NETFRAMEWORK35]]>
+      </Condition>
 		</Feature>
-		
+    <?ifdef RequireNet4 ?>
+    <Feature Id="Library40" Title="IsolatedTask for .NET 4.0" Description="The IsolatedTask library for MSBuild 4.0" Level="1">
+      <ComponentGroupRef Id="Net40"/>
+      <Condition Level="0">
+        <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+      </Condition>
+    </Feature>
+    <?endif?>
 	</Product>
 
 	<Fragment>

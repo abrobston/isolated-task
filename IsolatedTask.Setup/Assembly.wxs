@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?if $(var.MSBuildToolsVersion) = 3.5 ?>
-<?define IsolatedTaskSource = $(var.IsolatedTask.TargetPath) ?>
-<?else?>
-<?define IsolatedTaskSource = $(var.IsolatedTask2013.TargetPath) ?>
-<?endif?>
+<?include Paths.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-        <DirectoryRef Id="INSTALLFOLDER">
-            <Component Id="IsolatedTask" Guid="{2E3520B6-B866-49AF-9C74-A1323E963404}">
-                <File Id="IsolatedTask.dll" Source="$(var.IsolatedTaskSource)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
-            </Component>
-        </DirectoryRef>
+    <ComponentGroup Id="Net35">
+      <Component Id="IsolatedTask" Guid="{2E3520B6-B866-49AF-9C74-A1323E963404}" Directory="INSTALLFOLDER">
+        <File Id="IsolatedTask.dll" Source="$(var.Net35Source)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      </Component>
+      <Component Id="Policy10Net35" Guid="{9B63E54A-1093-4497-8B4B-6A770C8F489A}" Directory="INSTALLFOLDER">
+        <File Id="policy.1.0.IsolatedTask.dll" Source="$(var.Net35Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      </Component>
+    </ComponentGroup>
+    <?ifdef RequireNet4 ?>
+    <ComponentGroup Id="Net40">
+      <Component Id="IsolatedTask40" Guid="{7CB878DD-C0B5-4E66-8A2C-DF7D56862224}" Directory="INSTALLFOLDER">
+        <File Id="IsolatedTask40.dll" Source="$(var.Net40Source)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      </Component>
+      <Component Id="Policy10Net40" Guid="{C9F4786B-E6E2-436A-AFA8-6BD98992B16D}" Directory="INSTALLFOLDER">
+        <File Id="policy.1.0.IsolatedTask40.dll" Source="$(var.Net40Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      </Component>
+    </ComponentGroup>
+    <?endif ?>
 	</Fragment>
 </Wix>

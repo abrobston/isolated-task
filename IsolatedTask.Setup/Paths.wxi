@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?if $(var.MSBuildToolsVersion) = 3.5 ?>
+  <?define Net35Source = "$(var.IsolatedTask.TargetPath)" ?>
+  <?define Net35Dir = "$(var.IsolatedTask.TargetDir)" ?>
+<?else?>
+  <?define RequireNet4 ?>
+  <?define Net35Source = "$(var.Net35Dir)\IsolatedTask.dll" ?>
+  <?define Net40Source = "$(var.Net40Dir)\IsolatedTask.dll" ?>
+<?endif?>
+<Include>
+	<!-- TODO: Put your code here. -->
+</Include>

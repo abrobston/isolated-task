@@ -18,11 +18,13 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <SuppressIces>ICE30</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <SuppressPdbOutput>True</SuppressPdbOutput>
+    <SuppressIces>ICE30</SuppressIces>
   </PropertyGroup>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);MSBuildToolsVersion=$(MSBuildToolsVersion)</DefineConstants>
@@ -31,6 +33,7 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <SuppressIces>ICE30</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release40|AnyCPU' ">
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
@@ -68,6 +71,9 @@
       <Name>WixNetFxExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Paths.wxi" />
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="GetSignToolPath">
     <CombinePath BasePath="$(SdkPath)" Paths="bin\Signtool.exe">
@@ -90,11 +96,38 @@
 	</Target>
 	-->
   <Target Name="Build35">
-    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release;Platform=AnyCPU" Targets="Build" ToolsVersion="3.5" Condition=" '$(MSBuildToolsVersion)' != '3.5' " />
+    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release;Platform=AnyCPU" Targets="Build" ToolsVersion="3.5" Condition=" '$(MSBuildToolsVersion)' != '3.5' ">
+      <Output TaskParameter="TargetOutputs" PropertyName="Net35Outputs" />
+    </MSBuild>
   </Target>
   <Target Name="Build40">
-    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release40;Platform=AnyCPU" Targets="Build" Condition=" '$(MSBuildToolsVersion)' != '3.5' " />
+    <MSBuild Projects="..\IsolatedTask\IsolatedTask2013.csproj" Properties="Configuration=Release40;Platform=AnyCPU" Targets="Build" Condition=" '$(MSBuildToolsVersion)' != '3.5' ">
+      <Output TaskParameter="TargetOutputs" PropertyName="Net40Outputs" />
+    </MSBuild>
   </Target>
-  <Target Name="BeforeBuild" DependsOnTargets="Build35;Build40">
+  <Target Name="Build35Combine" DependsOnTargets="Build35">
+    <CombinePath BasePath="$(Net35Outputs)" Paths="..">
+      <Output TaskParameter="CombinedPaths" PropertyName="Net35Combine" />
+    </CombinePath>
+  </Target>
+  <Target Name="Build35Absolute" DependsOnTargets="Build35Combine">
+    <ConvertToAbsolutePath Paths="$(Net35Combine)">
+      <Output TaskParameter="AbsolutePaths" PropertyName="Net35Dir" />
+    </ConvertToAbsolutePath>
+  </Target>
+  <Target Name="Build40Combine" DependsOnTargets="Build40">
+    <CombinePath BasePath="$(Net40Outputs)" Paths=".." Condition=" '$(MSBuildToolsVersion)' != '3.5' ">
+      <Output TaskParameter="CombinedPaths" PropertyName="Net40Combine" />
+    </CombinePath>
+  </Target>
+  <Target Name="Build40Absolute" DependsOnTargets="Build40Combine">
+    <ConvertToAbsolutePath Paths="$(Net40Combine)" Condition=" '$(MSBuildToolsVersion)' != '3.5' ">
+      <Output TaskParameter="AbsolutePaths" PropertyName="Net40Dir" />
+    </ConvertToAbsolutePath>
+  </Target>
+  <Target Name="BeforeBuild" DependsOnTargets="Build35Absolute;Build40Absolute">
+    <PropertyGroup>
+      <DefineConstants>$(DefineConstants);Net35Dir=$(Net35Dir);Net40Dir=$(Net40Dir)</DefineConstants>
+    </PropertyGroup>
   </Target>
 </Project>
