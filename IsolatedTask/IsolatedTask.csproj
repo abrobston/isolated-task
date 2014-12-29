@@ -76,4 +76,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.IsolatedTask.dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Condition="'$(SignAssembly)' == 'true'" />
+  </Target>
 </Project>
