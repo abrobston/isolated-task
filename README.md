@@ -26,8 +26,11 @@ instead.  This project is that wrapper.
 Requirements
 ------------
 
-1. Visual Studio 2008, for now (other versions may be forthcoming)
-2. To build the solution, [WiX Toolset 3.8](http://wixtoolset.org/) is required
+1. Visual Studio 2008 or 2013.  2010 and 2012 may also work with the 2013
+   version of the solution, but I have not tested those versions.
+2. To build the solution, [WiX Toolset 3.8](http://wixtoolset.org/) is required.
+   Version 3.9 does not seem to integrate with Visual Studio 2008.  If you
+   are only using the VS2013 solution, version 3.9 of WiX will probably work.
 3. To sign the IsolatedTask DLL, you will [need your own signing key](http://msdn.microsoft.com/en-us/library/ms247123(v=vs.90).aspx)
 4. Optional: To sign the MSI, you will need an installation of the
    Windows SDK in order to use Signtool.exe as well as your
@@ -38,16 +41,21 @@ Use
 
 ### 1. Install the MSI
 
-The installer for v1.0.0.0 is [here](https://github.com/abrobston/isolated-task/releases/download/v1.0.0.0/IsolatedTask.msi).
+The installer for v1.1.0.0 is [here](https://github.com/abrobston/isolated-task/releases/download/v1.1.0.0/IsolatedTask.msi).
 
 ### 2. Reference IsolatedTask.dll in your MSBuild file
 
-For the current version (1.0.0.0) and the pre-built MSI, add:
+For the current version (1.1.0.0) and the pre-built MSI, add:
 
 ```xml
-<UsingTask AssemblyName="IsolatedTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2b71fcced119aa9c, processorArchitecture=MSIL"
+<UsingTask AssemblyName="IsolatedTask, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2b71fcced119aa9c, processorArchitecture=MSIL"
            TaskName="IsolatedTask" />
 ```
+
+The current installer includes publisher policy assemblies that forward
+earlier versions of IsolatedTask to version 1.1.0.0, so older references
+should still work without modification.  The current version targets both
+.NET 3.5 and .NET 4.0.
 
 If you compile your own, you will of course need your own primary key token,
 version number, etc.
@@ -98,9 +106,9 @@ Limits
    to every input parameter of type `ITaskItem[]` in the custom task.
 2. Only one output parameter (the one specified with `OutputParameterName`)
    will be available.
-3. Visual Studio 2008 only, for now.  The task probably works in
-   MSBuild 3.5 (from the command line or a continuous-integration server)
-   as well, though I have not yet tested this assertion.  You will, of
+3. The task probably works in MSBuild 3.5 or later
+   (from the command line or a continuous-integration server),
+   though I have not yet tested this assertion.  You will, of
    course, need to install the DLL on your build server.
 
 Building IsolatedTask yourself
