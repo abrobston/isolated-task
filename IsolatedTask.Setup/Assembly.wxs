@@ -3,20 +3,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
     <ComponentGroup Id="Net35">
-      <Component Id="IsolatedTask" Guid="{2E3520B6-B866-49AF-9C74-A1323E963404}" Directory="INSTALLFOLDER">
+      <Component Id="IsolatedTask" Guid="{2E3520B6-B866-49AF-9C74-A1323E963404}" Directory="INSTALLFOLDER35">
         <File Id="IsolatedTask.dll" Source="$(var.Net35Source)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
       </Component>
-      <Component Id="Policy10Net35" Guid="{9B63E54A-1093-4497-8B4B-6A770C8F489A}" Directory="INSTALLFOLDER">
-        <File Id="policy.1.0.IsolatedTask.dll" Source="$(var.Net35Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      <Component Id="policy.1.0.IsolatedTask" Guid="{6B4E2534-3F24-4EA4-9B6A-1F006717E8FC}" Directory="INSTALLFOLDER35">
+        <File Id="policy.1.0.IsolatedTask.dll" Source="$(var.Net35Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes"  />
+        <File Id="policy.1.0.IsolatedTask.config" Source="$(var.Net35Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
       </Component>
     </ComponentGroup>
     <?ifdef RequireNet4 ?>
     <ComponentGroup Id="Net40">
-      <Component Id="IsolatedTask40" Guid="{7CB878DD-C0B5-4E66-8A2C-DF7D56862224}" Directory="INSTALLFOLDER">
-        <File Id="IsolatedTask40.dll" Source="$(var.Net40Source)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      <Component Id="IsolatedTask40" Guid="{7CB878DD-C0B5-4E66-8A2C-DF7D56862224}" Directory="INSTALLFOLDER40">
+        <File Id="IsolatedTask.v4.0.dll" Source="$(var.Net40Source)" Assembly=".net" KeyPath="yes" Name="IsolatedTask.dll" Checksum="yes" Vital="yes" />
       </Component>
-      <Component Id="Policy10Net40" Guid="{C9F4786B-E6E2-436A-AFA8-6BD98992B16D}" Directory="INSTALLFOLDER">
-        <File Id="policy.1.0.IsolatedTask40.dll" Source="$(var.Net40Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      <Component Id="policy.1.0.IsolatedTask.v4.0.dll" Guid="{580AA290-2A93-47A2-921B-77F339DC2438}" Directory="INSTALLFOLDER40">
+        <File Id="policy.1.0.IsolatedTask.v4.0.dll" Source="$(var.Net40Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+        <File Id="policy.1.0.IsolatedTask.v4.0.config" Source="$(var.Net40Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.0.IsolatedTask.v4.0.dll" Checksum="yes" Vital="yes" />
       </Component>
     </ComponentGroup>
     <?endif ?>

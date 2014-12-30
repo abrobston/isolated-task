@@ -103,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IsolatedTaskReleaseKey.pfx" />
-    <None Include="Pub.config" />
+    <None Include="Pub.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -119,7 +121,7 @@
     </GetFrameworkPath>
   </Target>
   <Target Name="AfterBuild" DependsOnTargets="GetFramework35Path">
-    <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.IsolatedTask.dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' != 'v3.5' " />
-    <AL ToolPath="$(Framework35Path)" LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.IsolatedTask.dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' == 'v3.5' " />
+    <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' != 'v3.5' " />
+    <AL ToolPath="$(Framework35Path)" LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' == 'v3.5' " />
   </Target>
 </Project>
