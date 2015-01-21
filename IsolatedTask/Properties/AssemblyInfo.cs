@@ -11,7 +11,7 @@ using System.Configuration.Assemblies;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Brobston Development, Inc.")]
 [assembly: AssemblyProduct("IsolatedTask")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
