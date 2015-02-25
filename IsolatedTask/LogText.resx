@@ -112,11 +112,17 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Assembly" xml:space="preserve">
+    <value>assembly</value>
+  </data>
+  <data name="ErrorAssemblyLoadFailed" xml:space="preserve">
+    <value>Loading assembly with name '{0}' into the AppDomain '{1}' with BaseDirectory '{2}' failed.  See subsequent exception.</value>
+  </data>
   <data name="ErrorAssemblyNameOrFileMustBeSet" xml:space="preserve">
     <value>Either AssemblyName or AssemblyFile must be set.</value>
   </data>
@@ -150,6 +156,9 @@
   <data name="ErrorTypeNotITask" xml:space="preserve">
     <value>Type '{0}' in assembly '{1}' does not implement Microsoft.Build.Framework.ITask from assembly '{2}'.</value>
   </data>
+  <data name="ErrorUnableToResolveWithin" xml:space="preserve">
+    <value>Unable to resolve {0} '{1}' from within {2}.</value>
+  </data>
   <data name="MessageAssemblyLoadedFromFile" xml:space="preserve">
     <value>Assembly with name '{0}' loaded from file '{1}'</value>
   </data>
@@ -161,6 +170,9 @@
   </data>
   <data name="MessageUsingDefaultEmptyArray" xml:space="preserve">
     <value>Parameter '{0}' is an array type, but no value was specified.  Initializing with an empty array.</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>type</value>
   </data>
   <data name="WarningCannotConvertFromString" xml:space="preserve">
     <value>Parameter '{0}' is of type '{1}', which cannot be converted from string (or its elements cannot).  Skipping parameter.</value>

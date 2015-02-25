@@ -10,6 +10,10 @@
         <File Id="policy.1.0.IsolatedTask.dll" Source="$(var.Net35Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes"  />
         <File Id="policy.1.0.IsolatedTask.config" Source="$(var.Net35Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
       </Component>
+      <Component Id="policy.1.1.IsolatedTask" Guid="{21B17ADF-EF47-4A2E-B4E4-9BBA0D89F61B}" Directory="INSTALLFOLDER35">
+        <File Id="policy.1.1.IsolatedTask.dll" Source="$(var.Net35Dir)\policy.1.1.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.1.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+        <File Id="policy.1.1.IsolatedTask.config" Source="$(var.Net35Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.1.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+      </Component>
     </ComponentGroup>
     <?ifdef RequireNet4 ?>
     <ComponentGroup Id="Net40">
@@ -19,6 +23,10 @@
       <Component Id="policy.1.0.IsolatedTask.v4.0.dll" Guid="{580AA290-2A93-47A2-921B-77F339DC2438}" Directory="INSTALLFOLDER40">
         <File Id="policy.1.0.IsolatedTask.v4.0.dll" Source="$(var.Net40Dir)\policy.1.0.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.0.IsolatedTask.dll" Checksum="yes" Vital="yes" />
         <File Id="policy.1.0.IsolatedTask.v4.0.config" Source="$(var.Net40Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.0.IsolatedTask.v4.0.dll" Checksum="yes" Vital="yes" />
+      </Component>
+      <Component Id="policy.1.1.IsolatedTask.v4.0.dll" Guid="{37F67E5B-5952-443B-80F6-9033EC513561}" Directory="INSTALLFOLDER40">
+        <File Id="policy.1.1.IsolatedTask.v4.0.dll" Source="$(var.Net40Dir)\policy.1.1.IsolatedTask.dll" Assembly=".net" KeyPath="yes" Name="policy.1.1.IsolatedTask.dll" Checksum="yes" Vital="yes" />
+        <File Id="policy.1.1.IsolatedTask.v4.0.config" Source="$(var.Net40Dir)\Pub.config" KeyPath="no" Name="Pub.config" CompanionFile="policy.1.1.IsolatedTask.v4.0.dll" Checksum="yes" Vital="yes" />
       </Component>
     </ComponentGroup>
     <?endif ?>
