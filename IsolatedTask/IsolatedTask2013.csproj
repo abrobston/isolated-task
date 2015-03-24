@@ -104,7 +104,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <PolicyAssemblyVersion>1.2.0.0</PolicyAssemblyVersion>
+    <PolicyAssemblyVersion>1.3.0.0</PolicyAssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework" />
@@ -154,7 +154,9 @@
   <Target Name="AfterBuild" DependsOnTargets="GetFramework35Path">
     <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' != 'v3.5' " />
     <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.1.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' != 'v3.5' " />
+    <AL LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.2.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' != 'v3.5' " />
     <AL ToolPath="$(Framework35Path)" LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.0.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' == 'v3.5' " />
     <AL ToolPath="$(Framework35Path)" LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.1.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' == 'v3.5' " />
+    <AL ToolPath="$(Framework35Path)" LinkResources="Pub.config" OutputAssembly="$(OutputPath)policy.1.2.$(AssemblyName).dll" KeyContainer="IsolatedTaskReleaseKey" DelaySign="false" Platform="$(Platform)" Version="$(PolicyAssemblyVersion)" Condition="'$(SignAssembly)' == 'true' And '$(TargetFrameworkVersion)' == 'v3.5' " />
   </Target>
 </Project>

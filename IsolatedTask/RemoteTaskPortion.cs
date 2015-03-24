@@ -25,6 +25,7 @@ namespace IsolatedTask
         private string[] m_parameterNames;
         private string[] m_parameterValues;
         private ITaskItem[] m_taskItems;
+        private bool m_inLoadEvent;
 
         public RemoteTaskPortion(ObjRef isolatedTaskObjRef)
         {
@@ -54,6 +55,7 @@ namespace IsolatedTask
                     m_taskItems = m_unmarshalled.TaskItems;
                 }
 
+                m_inLoadEvent = false;
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
                 AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
                 try
@@ -254,23 +256,52 @@ namespace IsolatedTask
 
         private Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
         {
-            if (args.Name.Equals(m_taskNameWithNamespace, StringComparison.InvariantCultureIgnoreCase))
+            if (m_inLoadEvent)
             {
-                return Assembly.Load(m_determinedAssemblyName);
+                // Prevent infinite recursion
+                return null;
             }
-            m_log.LogWarningFromResources("ErrorUnableToResolveWithin", LogText.Type, args.Name, "RemoteTaskPortion.CurrentDomain_TypeResolve");
-            return null;
+
+            try
+            {
+                m_inLoadEvent = true;
+                if (args.Name.Equals(m_taskNameWithNamespace, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return Assembly.Load(m_determinedAssemblyName);
+                }
+                m_log.LogWarningFromResources("ErrorUnableToResolveWithin", LogText.Type, args.Name, "RemoteTaskPortion.CurrentDomain_TypeResolve");
+                return null;
+            }
+            finally
+            {
+                m_inLoadEvent = false;
+            }
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var missingAssemblyName = new AssemblyName(args.Name);
-            if (m_determinedAssemblyName.Name.Equals(missingAssemblyName.Name, StringComparison.InvariantCultureIgnoreCase))
+            if (m_inLoadEvent)
             {
-                return Assembly.Load(m_determinedAssemblyName);
+                // Prevent infinite recursion
+                return null;
             }
-            m_log.LogWarningFromResources("ErrorUnableToResolveWithin", LogText.Assembly, args.Name, "RemoteTaskPortion.CurrentDomain_AssemblyResolve");
-            return null;
+
+            try
+            {
+                m_inLoadEvent = true;
+                Assembly retVal = null;
+                var missingAssemblyName = new AssemblyName(args.Name);
+                if (m_determinedAssemblyName.Name.Equals(missingAssemblyName.Name, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    retVal = Assembly.Load(m_determinedAssemblyName);
+                }
+                m_log.LogWarningFromResources("ErrorUnableToResolveWithin", LogText.Assembly, args.Name, "RemoteTaskPortion.CurrentDomain_AssemblyResolve");
+                return retVal;
+            }
+            finally
+            {
+                m_inLoadEvent = false;
+            }
         }
     }
 }

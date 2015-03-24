@@ -14,6 +14,8 @@ namespace IsolatedTask
     [Serializable]
     public class IsolatedTask : AppDomainIsolatedTask
     {
+        private bool m_inLoadEvent;
+
         public IsolatedTask()
             : base(LogText.ResourceManager)
         {
@@ -21,6 +23,8 @@ namespace IsolatedTask
 
         public override bool Execute()
         {
+            m_inLoadEvent = false;
+
             if (String.IsNullOrEmpty(AssemblyName) && String.IsNullOrEmpty(AssemblyFile))
             {
                 Log.LogErrorFromResources("ErrorAssemblyNameOrFileMustBeSet");
@@ -96,32 +100,58 @@ namespace IsolatedTask
 
         private Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
         {
-            if (args.Name.Equals(this.TaskNameWithNamespace, StringComparison.InvariantCultureIgnoreCase))
+            if (m_inLoadEvent)
             {
-                if (String.IsNullOrEmpty(this.AssemblyFile))
-                {
-                    return Assembly.Load(m_determinedAssemblyName);
-                }
-                return Assembly.LoadFrom(this.AssemblyFile);
+                return null;
             }
-            Log.LogErrorFromResources("ErrorUnableToResolveWithin", LogText.Type, args.Name, "IsolatedTask.CurrentDomain_TypeResolve");
-            return null;
+
+            try
+            {
+                m_inLoadEvent = true;
+                if (args.Name.Equals(this.TaskNameWithNamespace, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (String.IsNullOrEmpty(this.AssemblyFile))
+                    {
+                        return Assembly.Load(m_determinedAssemblyName);
+                    }
+                    return Assembly.LoadFrom(this.AssemblyFile);
+                }
+                Log.LogErrorFromResources("ErrorUnableToResolveWithin", LogText.Type, args.Name, "IsolatedTask.CurrentDomain_TypeResolve");
+                return null;
+            }
+            finally
+            {
+                m_inLoadEvent = false;
+            }
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var requestedName = new SR.AssemblyName(args.Name);
-            if (requestedName.Name.Equals(m_determinedAssemblyName.Name, StringComparison.InvariantCultureIgnoreCase))
+            if (m_inLoadEvent)
             {
-                if (String.IsNullOrEmpty(this.AssemblyFile))
-                {
-                    return Assembly.Load(m_determinedAssemblyName);
-                }
-                return Assembly.LoadFrom(this.AssemblyFile);
+                return null;
             }
 
-            Log.LogErrorFromResources("ErrorUnableToResolveWithin", LogText.Assembly, args.Name, "IsolatedTask.CurrentDomain_AssemblyResolve");
-            return null;
+            try
+            {
+                m_inLoadEvent = true;
+                var requestedName = new SR.AssemblyName(args.Name);
+                if (requestedName.Name.Equals(m_determinedAssemblyName.Name, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (String.IsNullOrEmpty(this.AssemblyFile))
+                    {
+                        return Assembly.Load(m_determinedAssemblyName);
+                    }
+                    return Assembly.LoadFrom(this.AssemblyFile);
+                }
+
+                Log.LogErrorFromResources("ErrorUnableToResolveWithin", LogText.Assembly, args.Name, "IsolatedTask.CurrentDomain_AssemblyResolve");
+                return null;
+            }
+            finally
+            {
+                m_inLoadEvent = false;
+            }
         }
 
         private SR.AssemblyName m_determinedAssemblyName = null;
